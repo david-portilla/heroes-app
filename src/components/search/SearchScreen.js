@@ -1,21 +1,27 @@
 import React from 'react'
+// import queryString from '../../../node_modules/queryString'
+import { useLocation } from 'react-router-dom'
 import { heroes } from '../../data/heroes'
 import { useForm } from '../../hooks/useForm'
 import HeroCard from '../heroes/HeroCard'
 
-const SearchScreen = () => {
+const SearchScreen = ({ history }) => {
+
+  const location = useLocation()
+  const queryString = require('query-string');
+  const { q = '' } = queryString.parse(location.search)
 
   const heroesFiltered = heroes
 
   const [ formValues, handleInputChange ] = useForm({
-    searchText: ''
+    searchText: q
   })
 
   const { searchText } = formValues
 
   const handleSearch = (e) => {
     e.preventDefault()
-    console.log(searchText)
+    history.push(`?q=${ searchText }`)
   }
 
   return (
