@@ -1,8 +1,7 @@
-import React from 'react'
-// import queryString from '../../../node_modules/queryString'
+import React, { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
-import { heroes } from '../../data/heroes'
 import { useForm } from '../../hooks/useForm'
+import { getHeroesByName } from '../../selectors/getHeroesByName'
 import HeroCard from '../heroes/HeroCard'
 
 const SearchScreen = ({ history }) => {
@@ -11,13 +10,13 @@ const SearchScreen = ({ history }) => {
   const queryString = require('query-string');
   const { q = '' } = queryString.parse(location.search)
 
-  const heroesFiltered = heroes
-
   const [ formValues, handleInputChange ] = useForm({
     searchText: q
   })
 
   const { searchText } = formValues
+
+  const heroesFiltered = useMemo(() => getHeroesByName(q), [ q ])
 
   const handleSearch = (e) => {
     e.preventDefault()
