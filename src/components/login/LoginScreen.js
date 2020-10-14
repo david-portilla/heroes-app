@@ -13,7 +13,6 @@ const LoginScreen = ({ history }) => {
         name: 'David'
       }
     })
-
     history.replace('/')
   }
 
